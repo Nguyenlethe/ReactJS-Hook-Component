@@ -1,0 +1,73 @@
+.h3{
+    font-size:18px;
+}
+
+
+.topnav {
+    overflow: hidden;
+    margin: 30px 0;
+    form{
+        display: flex;
+    }
+    .search-container {
+        margin: auto;
+        border: 1px solid #ccc;
+        width: 500px;
+    }
+    input[type=text] {
+        padding: 6px;
+        height: 32px;
+        font-size: 17px;
+        border: none;
+        width: 80%;
+    }
+    .search-container button {
+        float: right;
+        width: 20%;
+        height: 32px;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+    }
+    .search-container button:hover {
+        background: #ccc;
+    }
+}
+
+
+.yt-result{
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    .left{
+        float: left;
+        width: 550px;
+        height: 300px;
+    }
+
+    .right{
+        flex: 1;
+        text-align:left;
+        margin: 0 12px;
+        .title{
+            font-size: 18px;
+            font-weight: 500;
+            margin: 20px 0 0 0;
+        }
+        .created-at{
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .author{
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .description{
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+}
+

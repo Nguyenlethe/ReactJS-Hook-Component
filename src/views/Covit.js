@@ -1,51 +1,28 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+
+import useFetch from '../customize/fetch';
 import moment from 'moment';
+import { memo } from 'react';
 
-function Covit() {
+import classNames from 'classnames/bind';
+import styles from'../App.module.scss'
+const cx = classNames.bind(styles);
 
-    const [dataCovit, setDataCovit] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [isError, setIsError] = useState(false)
+function Covit() { 
 
+    let d = new Date();
+    var date = `${d.getFullYear()}-${d.getMonth()+ 1}-${d.getDate()}`
+    var priorDate = `${d.getFullYear()}-${d.getMonth()+ 1}-${d.getDate()-20}`
 
-
-    
-
-    useEffect( () => {
-        async function fetchData() {
-            try {
-                const res = await axios.get('https://api.covid19api.com/country/vietnam?from=2021-10-10T00%3A00%3A00Z&to=2021-10-20T00%3A00%3A00Z');
-                let data = res && res.data ? res.data : [];
-                if(data && data.length > 0 ){
-                    data.map(function(item){
-                        item.Date = moment(item.Date).format('DD/MM/YYYY')
-                        return item
-                    })
-                    data = data.reverse()
-                    setDataCovit(data)
-                    setIsLoading(false)
-                    setIsError(false)
-                }
-            }
-            catch(error) {
-                if(error){
-                    setTimeout(()=> {
-                        setIsLoading(null)
-                        setIsError(error.message)
-                    },4000)
-                }
-            }
-        }
-        fetchData()
-    },[])
-
-
+    const { data: dataCovit , isLoading, isError } = useFetch(`https://api.covid19api.com/country/vietnam?from=${priorDate}T00%3A00%3A00Z&to=${date}T00%3A00%3A00Z`)
     return ( 
-        <div className="list-table">
+        <div className={cx("list-table")}>           
+            <h2>Danh sách tình hình Covit 19 tại Việt Nam </h2> <br/>   
+            <h4>Tính từ {priorDate} đến {date}</h4> 
+
             <table>
                 <tbody>
                     <tr>
+                        <th>STT</th>
                         <th>Confirmed</th>
                         <th>Active</th>
                         <th>Deaths</th>
@@ -53,14 +30,15 @@ function Covit() {
                         <th>Date</th>
                     </tr>
                         {isLoading === false && dataCovit && dataCovit.length > 0 && 
-                            dataCovit.map((covit, index) => {
+                            dataCovit.reverse().map((covit, index) => {
                                 return (                                
                                     <tr key={covit.ID}>
+                                        <td>{index}</td>
                                         <td>{covit.Confirmed}</td>
                                         <td>{covit.Active}</td>
                                         <td>{covit.Deaths}</td>
                                         <td>{covit.Recovered}</td>
-                                        <td>{covit.Date}</td>
+                                        <td>{moment(covit.Date).format('DD/MM/YYYY')}</td>
                                     </tr>)
                             })
                         }
@@ -69,7 +47,7 @@ function Covit() {
                 </tbody>
             </table>
         </div>
-    );
+    )
 }
 
-export default Covit;
+export default memo(Covit);

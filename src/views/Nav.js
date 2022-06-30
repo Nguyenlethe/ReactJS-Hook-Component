@@ -1,14 +1,15 @@
+import classNames from 'classnames/bind';
+import styles from'./Nav.module.scss'
+const cx = classNames.bind(styles);
 
-import './Nav.scss'
-
-function Nav() {
+function Nav({Link, NavLink}) {
     return ( 
-    <div className="topnav">
-        <a className="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
+    <div className={cx("topnav")}>
+        <NavLink activeClassName={cx("active")} to="/" exact>      Home</NavLink>
+        <NavLink activeClassName={cx("active")} to="/todos">   Todo App</NavLink>
+        <NavLink activeClassName={cx("active")} to="/timer">  Timer App</NavLink>
+        <NavLink activeClassName={cx("active")} to="/blog">    Blog App</NavLink>
+        <NavLink activeClassName={cx("active")} to="/secret">Secret App</NavLink>
     </div> );
 }
-
 export default Nav;
